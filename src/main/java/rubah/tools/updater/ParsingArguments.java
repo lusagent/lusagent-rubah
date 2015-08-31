@@ -171,6 +171,7 @@ public class ParsingArguments extends Filter {
 					break;
 				case FULL_LAZY:
 					migrationStrategy = new FullyLazyMonolithic();
+					state.setLazy(true);
 					break;
 				case EAGER_LAZY:
 					migrationStrategy = new EagerLazy(mappingStrategy, this.nThreads);

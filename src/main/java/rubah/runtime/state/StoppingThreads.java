@@ -62,11 +62,15 @@ public class StoppingThreads extends RubahState {
 		} finally {
 			this.stateLock.unlock();
 		}
-
 		time = System.currentTimeMillis() - time;
-		Rubah.getOut().println("Stopped " + this.state.getStopped().size() + " threads in " + time + "ms");
+		System.out.println("Stopped " + this.state.getStopped().size() + " threads in " + time + "ms");
+		time = System.currentTimeMillis();
+		countObjs();
+		time = System.currentTimeMillis() - time;
+		System.out.println("Objects counted in " + time + "ms");
 	}
-
+        
+	private static native void countObjs();
 
 
 	@Override

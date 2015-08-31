@@ -32,7 +32,7 @@ import org.objectweb.asm.Opcodes;
 import org.objectweb.asm.commons.LocalVariablesSorter;
 
 import rubah.Rubah;
-import rubah.bytecode.RubahProxy;
+import rubah.RubahProxy;
 import rubah.framework.Clazz;
 import rubah.framework.Method;
 import rubah.framework.Type;

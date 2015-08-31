@@ -20,6 +20,7 @@
  *******************************************************************************/
 package rubah.io;
 
+import rubah.InterruptedException;
 import java.io.IOException;
 import java.net.SocketTimeoutException;
 import java.nio.channels.SelectionKey;

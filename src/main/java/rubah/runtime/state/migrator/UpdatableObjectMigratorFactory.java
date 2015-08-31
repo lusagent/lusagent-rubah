@@ -26,7 +26,7 @@ import java.util.Set;
 import org.cliffc.high_scale_lib.Counter;
 
 import rubah.Rubah;
-import rubah.bytecode.RubahProxy;
+import rubah.RubahProxy;
 import rubah.bytecode.transformers.ProxyGenerator;
 import rubah.framework.Clazz;
 import rubah.framework.Type;

@@ -32,7 +32,6 @@ import java.nio.channels.SocketChannel;
 
 import org.apache.commons.io.output.NullOutputStream;
 
-import rubah.io.InterruptedException;
 import rubah.io.RubahIO;
 import rubah.runtime.RubahRuntime;
 import rubah.runtime.VersionManager;
@@ -123,7 +122,7 @@ public final class Rubah extends RubahRuntime {
 		}
 	}
 
-	public static void registerBlockingIO() throws InterruptedException {
+	public static void registerBlockingIO() {
 		RubahIO.registerBlockingIO();
 	}
 

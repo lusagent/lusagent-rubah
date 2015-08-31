@@ -38,7 +38,7 @@ import java.util.concurrent.atomic.AtomicReference;
 import org.cliffc.high_scale_lib.Counter;
 
 import rubah.Rubah;
-import rubah.bytecode.RubahProxy;
+import rubah.RubahProxy;
 import rubah.bytecode.transformers.AddForwardField;
 import rubah.bytecode.transformers.AddTraverseMethod;
 import rubah.bytecode.transformers.ProxyGenerator;

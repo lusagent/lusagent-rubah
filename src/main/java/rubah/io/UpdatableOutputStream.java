@@ -81,7 +81,7 @@ public class UpdatableOutputStream extends OutputStream {
 			Integer ret;
 			try {
 				ret	= Rubah.write(this.selector, this.channel, this.buf);
-			} catch (rubah.io.InterruptedException e) {
+			} catch (rubah.InterruptedException e) {
 				System.out.println("Thread "+Thread.currentThread()+" interrupted while writing, retrying...");
 				continue; // Interrupted while flushing, retry
 			}

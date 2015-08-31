@@ -18,8 +18,9 @@
  *     You should have received a copy of the GNU General Public License
  *     along with Rubah.  If not, see <http://www.gnu.org/licenses/>.
  *******************************************************************************/
-package rubah.io;
+package rubah;
 
-public class InterruptedException extends Exception {
 
+public interface RubahProxy {
+	public void convert(Object pre, Object post);
 }

@@ -47,7 +47,7 @@ public class UpdatableInputStream extends InputStream {
 		this.channel.register(this.selector, SelectionKey.OP_READ);
 	}
 
-	private Integer blockingRead() throws IOException, rubah.io.InterruptedException {
+	private Integer blockingRead() throws IOException, rubah.InterruptedException {
 		Integer ret = null;
 		this.buf.clear();
 		try {
@@ -65,7 +65,7 @@ public class UpdatableInputStream extends InputStream {
 				Integer ret;
 				try {
 					ret = this.blockingRead();
-				} catch (rubah.io.InterruptedException e) {
+				} catch (rubah.InterruptedException e) {
 					System.out.println("Thread "+Thread.currentThread()+" interrupted while reading, ignoring...");
 					continue; // Interrupt, carry on reading
 				}
@@ -90,7 +90,7 @@ public class UpdatableInputStream extends InputStream {
 				Integer ret ;
 				try {
 					ret = this.blockingRead();
-				} catch (rubah.io.InterruptedException e) {
+				} catch (rubah.InterruptedException e) {
 					continue; // Interrupt, carry on reading
 				}
 				if (ret == -1) {
@@ -111,9 +111,9 @@ public class UpdatableInputStream extends InputStream {
 	 * Returns the next byte that read() will return and blocks until available data.
 	 * @return
 	 * @throws IOException
-	 * @throws rubah.io.InterruptedException If read is interrupted by an update request
+	 * @throws rubah.InterruptedException If read is interrupted by an update request
 	 */
-	public Integer peek() throws IOException, rubah.io.InterruptedException {
+	public Integer peek() throws IOException, rubah.InterruptedException {
 		if (!this.buf.hasRemaining()) {
 			while (true) {
 				Integer ret	= this.blockingRead();

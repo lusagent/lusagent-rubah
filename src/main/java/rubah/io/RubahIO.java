@@ -20,6 +20,7 @@
  *******************************************************************************/
 package rubah.io;
 
+import rubah.InterruptedException;
 import java.io.IOException;
 import java.nio.ByteBuffer;
 import java.nio.channels.Selector;
@@ -55,14 +56,14 @@ public class RubahIO {
 		}
 	};
 
-	public static void registerBlockingIO() throws InterruptedException {
+	public static void registerBlockingIO() {
 		ThreadInterruptibleStatus status = interruptibleStatus.get();
 
 		synchronized (status) {
 			status.interruptible = true;
 			if (status.interrupted) {
 				status.interrupted = false;
-				throw new InterruptedException();
+				Thread.currentThread().interrupt();
 			}
 		}
 	}

@@ -21,7 +21,7 @@
 package rubah.runtime;
 
 import rubah.Rubah;
-import rubah.bytecode.RubahProxy;
+import rubah.RubahProxy;
 
 
 

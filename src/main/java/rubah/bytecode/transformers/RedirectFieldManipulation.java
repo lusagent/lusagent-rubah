@@ -50,7 +50,7 @@ import org.objectweb.asm.util.Textifier;
 import org.objectweb.asm.util.TraceMethodVisitor;
 
 import rubah.Rubah;
-import rubah.bytecode.RubahProxy;
+import rubah.RubahProxy;
 import rubah.framework.Clazz;
 import rubah.framework.Method;
 import rubah.framework.Namespace;

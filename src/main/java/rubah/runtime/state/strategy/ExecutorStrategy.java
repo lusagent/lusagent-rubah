@@ -21,7 +21,7 @@
 package rubah.runtime.state.strategy;
 
 import java.util.LinkedList;
-import java.util.concurrent.ConcurrentLinkedDeque;
+import jsr166y.ConcurrentLinkedDeque;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.locks.Lock;
@@ -48,7 +48,7 @@ import rubah.runtime.state.MigratingProgramState;
 
 		}
 
-		private transient ConcurrentLinkedDeque<QueuedConversion> queued = new ConcurrentLinkedDeque<>();
+		private transient ConcurrentLinkedDeque<QueuedConversion> queued = new ConcurrentLinkedDeque<QueuedConversion>();
 		protected transient StrippedCounter inFlight;
 		protected transient ExecutorService executor;
 		protected final int nThreads;
@@ -60,7 +60,7 @@ import rubah.runtime.state.MigratingProgramState;
 
 		@Override
 		public MigrationStrategy setState(MigratingProgramState state) {
-			this.queued = new ConcurrentLinkedDeque<>();
+			this.queued = new ConcurrentLinkedDeque<QueuedConversion>();
 			this.inFlight = new StrippedCounter(this);
 			return super.setState(state);
 		}

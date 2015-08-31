@@ -64,8 +64,8 @@ public final class VersionManager {
 	private Map<Version, File> jarFiles = new HashMap<Version, File>();
 	private Map<Version, UpdateClass> updateClasses = new HashMap<Version, UpdateClass>();
 
-	private Set<String> currentVersionClassNames = new HashSet<>();
-	private Set<String> outdatedClassNames = new HashSet<>();
+	private Set<String> currentVersionClassNames = new HashSet<String>();
+	private Set<String> outdatedClassNames = new HashSet<String>();
 
 	private VersionManager() { /* Empty */ }
 
@@ -82,7 +82,7 @@ public final class VersionManager {
 		this.updateClasses.put(v1, (options.getUpdateClass() == null ? new V0V0UpdateClass() : options.getUpdateClass()));
 
 		this.outdatedClassNames.addAll(this.currentVersionClassNames);
-		this.currentVersionClassNames = new HashSet<>();
+		this.currentVersionClassNames = new HashSet<String>();
 
 		for (Clazz c1 : v1.getNamespace().getDefinedClasses()) {
 			String updatableName = v1.getUpdatableName(c1.getFqn());
@@ -103,7 +103,7 @@ public final class VersionManager {
 		v1.computeProgramUpdate(options.getUpdateClass(), options.isLazy());
 
 		this.outdatedClassNames.addAll(this.currentVersionClassNames);
-		this.currentVersionClassNames = new HashSet<>();
+		this.currentVersionClassNames = new HashSet<String>();
 
 		for (Clazz c1 : v1.getNamespace().getDefinedClasses()) {
 			String updatableName = v1.getUpdatableName(c1.getFqn());

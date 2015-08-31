@@ -30,7 +30,7 @@ import rubah.bytecode.transformers.ReplaceOriginalNamesByUnique;
 
 public class Namespace {
 	protected Map<String, Clazz> definedClasses = new HashMap<String, Clazz>();
-	private Set<Clazz> bootstrapClasses = new HashSet<>();
+	private Set<Clazz> bootstrapClasses = new HashSet<Clazz>();
 
 	private static String DUMMY_PREFIX = "#";
 

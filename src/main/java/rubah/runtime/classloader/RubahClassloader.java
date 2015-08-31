@@ -80,7 +80,7 @@ public class RubahClassloader extends ClassLoader implements Opcodes {
 		return unsafe.objectFieldOffset(hashCodeField);
 	}
 
-	private Map<String, Boolean> resolved = new HashMap<>();
+	private Map<String, Boolean> resolved = new HashMap<String, Boolean>();
 
 	private static LinkedList<Class<?>> loadedClasses = new LinkedList<Class<?>>();
 	public static LinkedList<Class<?>> getLoadedClasses() {

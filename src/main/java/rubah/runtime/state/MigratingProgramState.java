@@ -99,7 +99,7 @@ public class MigratingProgramState extends RubahState {
 				}
 			};
 
-	private Map<RubahThread, RubahThread> redirectedThreads = new HashMap<>();
+	private Map<RubahThread, RubahThread> redirectedThreads = new HashMap<RubahThread, RubahThread>();
 
 	protected MigrationStrategy strategy;
 
@@ -120,7 +120,7 @@ public class MigratingProgramState extends RubahState {
 		System.out.println("Traversing the heap using strategy " + this.strategy.getDescription() + "...");
 
 		long time = System.currentTimeMillis();
-		LinkedList<Class<?>> loadedClasses = new LinkedList<>();
+		LinkedList<Class<?>> loadedClasses = new LinkedList<Class<?>>();
 		synchronized (RubahClassloader.class) {
 			loadedClasses = new LinkedList<Class<?>>(RubahClassloader.getLoadedClasses());
 		}

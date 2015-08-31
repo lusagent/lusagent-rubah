@@ -38,7 +38,7 @@ public class RubahIO {
 		Thread t;
 	}
 
-	private static Set<ThreadInterruptibleStatus> threads = new HashSet<>();
+	private static Set<ThreadInterruptibleStatus> threads = new HashSet<ThreadInterruptibleStatus>();
 
 	private static ThreadLocal<ThreadInterruptibleStatus> interruptibleStatus = new ThreadLocal<ThreadInterruptibleStatus>() {
 		@Override

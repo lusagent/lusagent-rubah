@@ -31,7 +31,7 @@ import rubah.framework.Type;
 import rubah.runtime.RubahReflection;
 
 public class ReflectionRewritter extends RubahTransformer {
-	protected final HashMap<MethodInvocation, MethodInvocation> translations = new HashMap<>();
+	protected final HashMap<MethodInvocation, MethodInvocation> translations = new HashMap<MethodInvocation, MethodInvocation>();
 
 	public ReflectionRewritter(HashMap<String, Object> objectsMap, Namespace namespace, ClassVisitor cv) {
 		super(objectsMap, namespace, cv);

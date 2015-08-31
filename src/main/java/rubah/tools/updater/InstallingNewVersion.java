@@ -68,7 +68,10 @@ public class InstallingNewVersion extends Filter {
 			.setLazy(state.isLazy());
 		}
 
-		try (Socket clientSocket = new Socket(InetAddress.getLocalHost(), Updater.port)) {
+		Socket clientSocket = null;
+		try {
+			clientSocket = new Socket(InetAddress.getLocalHost(), Updater.port);
+
 	        // Create the input & output streams to the server
 	        ObjectOutputStream outToServer = new ObjectOutputStream(clientSocket.getOutputStream());
 	        outToServer.writeObject(type);
@@ -80,7 +83,12 @@ public class InstallingNewVersion extends Filter {
 	        System.err.println("Client Error: " + e.getMessage());
 	        System.err.println("Localized: " + e.getLocalizedMessage());
 	        System.err.println("Stack Trace: " + e.getStackTrace());
-	    }
+	    } finally {
+			try {
+				clientSocket.close();
+			} catch (Exception e) {
+			}
+		}
 	}
 
 }

@@ -289,7 +289,7 @@ public class ProcessUpdateClass extends RubahTransformer {
 	private static final Map<Type, UnsafeInfo> unsafeInfoMap;
 
 	static {
-		unsafeInfoMap = new HashMap<>();
+		unsafeInfoMap = new HashMap();
 
 		for (Type t : Type.primitives) {
 			String name;
@@ -367,8 +367,10 @@ public class ProcessUpdateClass extends RubahTransformer {
 					c = c.getSuperclass();
 				}
 			}
-		} catch (ReflectiveOperationException | SecurityException e) {
+		} catch (SecurityException e) {
 			throw new Error(e);
+		} catch (ClassNotFoundException e) {
+			throw new Error(e);        
 		}
 	}
 

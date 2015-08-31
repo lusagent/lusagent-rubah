@@ -38,7 +38,10 @@ public class ForwardFieldStrategy implements MappingStrategy {
 		long val;
 		try {
 			val = UnsafeUtils.getUnsafe().objectFieldOffset(Class.class.getDeclaredField(AddForwardField.CLASS_INFO_FIELD_NAME));
-		} catch (NoSuchFieldException | SecurityException e) {
+		} catch (NoSuchFieldException e) {
+			val = 0;
+			// Ignore, this class is loaded in a different context probably
+		} catch (SecurityException e) {
 			val = 0;
 			// Ignore, this class is loaded in a different context probably
 		}

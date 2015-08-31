@@ -183,7 +183,7 @@ public class SingleThreaded implements MigrationStrategy {
 	@Override
 	public void migrateStaticFields(Collection<Class<?>> classes) {
 		Version v1 = VersionManager.getInstance().getLatestVersion();
-		LinkedList<ClassConversionTime> times = new LinkedList<>();
+		LinkedList<ClassConversionTime> times = new LinkedList<ClassConversionTime>();
 		MigratorSubFactory staticMigratorFactory = new StaticFieldsMigratorFactory(this, v1);
 
 		for (Class<?> c : classes) {
@@ -202,7 +202,7 @@ public class SingleThreaded implements MigrationStrategy {
 		Collections.sort(times, new Comparator<ClassConversionTime>() {
 			@Override
 			public int compare(ClassConversionTime o1, ClassConversionTime o2) {
-				return Long.compare(o2.conversionTime, o1.conversionTime);
+				return Long.valueOf(o2.conversionTime).compareTo(Long.valueOf(o1.conversionTime));
 			}
 		});
 

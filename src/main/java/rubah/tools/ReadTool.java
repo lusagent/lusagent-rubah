@@ -56,7 +56,7 @@ import java.util.regex.Pattern;
 		JarFile jar;
 		jar = new JarFile(this.inFile);
 
-		HashSet<String> foundFiles = new HashSet<>();
+		HashSet<String> foundFiles = new HashSet<String>();
 
 		try {
 			Enumeration<JarEntry> contents = jar.entries();

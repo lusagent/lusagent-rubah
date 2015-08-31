@@ -62,13 +62,20 @@ public class Updater {
 	public static void main(String[] args) {
 		UpdateTypeOptions typeOptions = parseArgs(args);
 
-		try (Socket clientSocket = new Socket(InetAddress.getLocalHost(), Updater.port)) {
+		Socket clientSocket = null;
+		try {
+			clientSocket = new Socket(InetAddress.getLocalHost(), Updater.port);
 			installUpdate(typeOptions.type, typeOptions.options, clientSocket);
 	    } catch (Exception e) {
 	        System.err.println("Client Error: " + e.getMessage());
 	        System.err.println("Localized: " + e.getLocalizedMessage());
 	        System.err.println("Stack Trace: " + e.getStackTrace());
-	    }
+	    } finally {
+			try {
+				clientSocket.close();
+			} catch (Exception e) {
+			}
+		}
 	}
 
 	public static final class UpdateTypeOptions {
@@ -225,10 +232,14 @@ public class Updater {
 
 		@Override
 		public void run() {
-			try (ServerSocket welcomeSocket = new ServerSocket(port)) {
+			ServerSocket welcomeSocket = null;
+			try {
+				welcomeSocket = new ServerSocket(port);
 				while (true) {
 					// Create the Client Socket
-					try (Socket clientSocket = welcomeSocket.accept()) {
+					Socket clientSocket = null;
+					try {
+						clientSocket = welcomeSocket.accept();
 						out.println("Updater connected...");
 						ObjectInputStream inFromClient = new ObjectInputStream(clientSocket.getInputStream());
 						ObjectOutputStream outToClient = new ObjectOutputStream(clientSocket.getOutputStream());
@@ -266,14 +277,28 @@ public class Updater {
 							e.printStackTrace();
 							continue;
 						}
-					} catch (ClassNotFoundException | IOException e) {
+					} catch (ClassNotFoundException e) {
 						System.out.println(e);
 						e.printStackTrace();
 						continue;
+					} catch (IOException e) {
+						System.out.println(e);
+						e.printStackTrace();
+						continue;
+					} finally {
+						try {
+							clientSocket.close();
+						} catch (Exception e) {
+						} 
 					}
 				}
 			} catch (IOException e) {
 				throw new Error(e);
+			} finally {
+				try {
+					welcomeSocket.close();
+				} catch (Exception e) {
+				}
 			}
 		}
 	}
@@ -305,7 +330,9 @@ public class Updater {
 					outToClient.writeLong(threadID);
 					outToClient.flush();
 					ret = (Action) inFromClient.readObject();
-				} catch (IOException | ClassNotFoundException e) {
+				} catch (IOException e) {
+					e.printStackTrace();
+				} catch (ClassNotFoundException e) {
 					e.printStackTrace();
 				}
 

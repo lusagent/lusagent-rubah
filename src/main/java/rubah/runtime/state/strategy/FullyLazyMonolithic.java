@@ -68,7 +68,10 @@ public class FullyLazyMonolithic implements MigrationStrategy {
 		long val;
 		try {
 			val = UnsafeUtils.getUnsafe().objectFieldOffset(Class.class.getDeclaredField(AddForwardField.CLASS_INFO_FIELD_NAME));
-		} catch (NoSuchFieldException | SecurityException e) {
+		} catch (NoSuchFieldException e) {
+			val = 0;
+			// Ignore, this class is loaded in a different context probably
+		} catch (SecurityException e) {
 			val = 0;
 			// Ignore, this class is loaded in a different context probably
 		}
@@ -114,7 +117,7 @@ public class FullyLazyMonolithic implements MigrationStrategy {
 		}
 
 		this.v1 = v1;
-		this.map = new rubah.runtime.state.ConcurrentHashMap<>();
+		this.map = new rubah.runtime.state.ConcurrentHashMap();
 
 		return this;
 	}
@@ -181,9 +184,11 @@ public class FullyLazyMonolithic implements MigrationStrategy {
 //				for (long offset : this.getConversionInfo(info.proxyClass).fieldOffsets)
 //					this.traverse(ret, offset, ret, offset);
 				UnsafeUtils.getInstance().changeClass(proxy, info.proxyClassToken);
-			} catch (ReflectiveOperationException | IllegalArgumentException e) {
+			} catch (IllegalArgumentException e) {
 				throw new Error(e);
-			}
+			} catch (InstantiationException e) {                        
+				throw new Error(e);
+			}                        
 
 //			ClassConversionInfo proxyInfo = this.getConversionInfo(info.proxyClass);
 //			this.mapObject(proxy, fromObj, proxyInfo);
@@ -389,7 +394,9 @@ public class FullyLazyMonolithic implements MigrationStrategy {
 				this.counter.increment();
 				for (long offset : this.getConversionInfo(ret.getClass()).fieldOffsets)
 					this.traverse(ret, offset, ret, offset);
-			} catch (IllegalArgumentException | InstantiationException e) {
+			} catch (IllegalArgumentException e) {
+				throw new Error(e);
+			} catch (InstantiationException e) {
 				throw new Error(e);
 			}
 			break;
@@ -662,7 +669,9 @@ public class FullyLazyMonolithic implements MigrationStrategy {
 				}
 			}
 
-		} catch (SecurityException | ReflectiveOperationException e) {
+		} catch (SecurityException e) {
+			throw new Error(e);
+		} catch (ClassNotFoundException e) {
 			throw new Error(e);
 		}
 

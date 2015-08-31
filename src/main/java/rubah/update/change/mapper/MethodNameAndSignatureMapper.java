@@ -28,7 +28,7 @@ import rubah.framework.Method;
 
 public class MethodNameAndSignatureMapper implements Mapper<Method> {
 
-	private Map<String, Method> methodMap = new HashMap<>();
+	private Map<String, Method> methodMap = new HashMap<String, Method>();
 
 	public MethodNameAndSignatureMapper(Clazz c0) {
 		for (Method m : c0.getMethods()) {

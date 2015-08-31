@@ -52,7 +52,7 @@ public class UpdatableClassInfoGatherer extends BasicClassInfoGatherer {
 		HashMap<Clazz, List<Clazz>> ret = new HashMap<Clazz, List<Clazz>>();
 
 		for (Entry<Clazz, Set<Clazz>> entry : tmp.entrySet()) {
-			LinkedList<Clazz> lst = new  LinkedList<>(entry.getValue());
+			LinkedList<Clazz> lst = new  LinkedList<Clazz>(entry.getValue());
 
 			Collections.sort(lst, new Comparator<Clazz>() {
 				@Override

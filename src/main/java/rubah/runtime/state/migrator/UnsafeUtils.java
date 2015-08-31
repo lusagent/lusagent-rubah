@@ -43,7 +43,7 @@ public class UnsafeUtils {
 
 	private HashedMap classOffsetsMap = new HashedMap();
 
-	private Map<Class<?>, ProxyOffsets> proxyOffsetsMap = new HashMap<>();
+	private Map<Class<?>, ProxyOffsets> proxyOffsetsMap = new HashMap<Class<?>, ProxyOffsets>();
 	private static final Unsafe unsafe;
 
 	static {
@@ -185,7 +185,7 @@ public class UnsafeUtils {
 		}
 	}
 
-	private HashMap<Class<?>, Object> classToKlass = new HashMap<>();
+	private HashMap<Class<?>, Object> classToKlass = new HashMap<Class<?>, Object>();
 
 	public void registerClassToKlass(Class<?> c) {
 		if (classToKlass.containsKey(c))

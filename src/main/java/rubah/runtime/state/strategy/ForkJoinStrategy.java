@@ -21,7 +21,7 @@
 package rubah.runtime.state.strategy;
 
 import java.util.concurrent.ExecutorService;
-import java.util.concurrent.ForkJoinPool;
+import jsr166y.ForkJoinPool;
 
 public class ForkJoinStrategy extends ExecutorStrategy {
 

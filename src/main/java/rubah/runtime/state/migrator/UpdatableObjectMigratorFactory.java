@@ -39,7 +39,7 @@ public class UpdatableObjectMigratorFactory extends DefaultObjectMigratorFactory
 	private Set<String> outdatedClasses;
 	private UpdatableObjectMigrator migrator = new UpdatableObjectMigrator();
 
-	private HashMap<Class<?>, ConversionInfo> conversionInfo = new HashMap<>();
+	private HashMap<Class<?>, ConversionInfo> conversionInfo = new HashMap<Class<?>, ConversionInfo>();
 
 	public UpdatableObjectMigratorFactory(
 			Set<String> outdatedClasses,

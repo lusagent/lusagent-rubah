@@ -30,7 +30,7 @@ import rubah.Rubah;
 import rubah.runtime.state.UpdateState.StoppedThread;
 
 public class MigratingControlFlow extends RubahState {
-	private Map<Thread, String> migrating = new HashMap<>();
+	private Map<Thread, String> migrating = new HashMap<Thread, String>();
 
 	private Lock stateLock = new ReentrantLock();
 	private Condition migratingChanged = this.stateLock.newCondition();

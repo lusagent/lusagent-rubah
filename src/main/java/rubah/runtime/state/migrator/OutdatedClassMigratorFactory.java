@@ -34,7 +34,7 @@ public class OutdatedClassMigratorFactory extends DefaultObjectMigratorFactory {
 	private Set<String> outdatedClasses;
 	private UpdatableObjectMigrator migrator = new UpdatableObjectMigrator();
 
-	private ConcurrentHashMap<Class<?>, ConversionInfo> conversionInfo = new ConcurrentHashMap<>();
+	private ConcurrentHashMap<Class<?>, ConversionInfo> conversionInfo = new ConcurrentHashMap<Class<?>, ConversionInfo>();
 
 	public OutdatedClassMigratorFactory(
 			Set<String> redefinedClasses,

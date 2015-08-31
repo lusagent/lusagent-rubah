@@ -32,7 +32,7 @@ public class MigratorFactory {
 		this.factories = factories;
 	}
 
-	private ConcurrentHashMap<Class<?>, MigratorSubFactory> map = new ConcurrentHashMap<>();
+	private ConcurrentHashMap<Class<?>, MigratorSubFactory> map = new ConcurrentHashMap<Class<?>, MigratorSubFactory>();
 
 	public Migrator getMigrator(Class<?> c) {
 		MigratorSubFactory subFactory = map.get(c);

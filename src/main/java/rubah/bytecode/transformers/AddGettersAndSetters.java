@@ -62,7 +62,7 @@ public class AddGettersAndSetters extends RubahTransformer {
 	}
 
 	static {
-		putInvocationMap = new HashMap<>();
+		putInvocationMap = new HashMap();
 		putInvocationMap.put(org.objectweb.asm.Type.BOOLEAN,
 				new Invocation("putBoolean", Type.BOOLEAN_TYPE));
 		putInvocationMap.put(org.objectweb.asm.Type.BYTE,

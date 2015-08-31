@@ -12,9 +12,24 @@
 
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+		<maven.compiler.source>1.6</maven.compiler.source>
+		<maven.compiler.target>1.6</maven.compiler.target>
 	</properties>
 
+  	<repositories>
+		<repository>
+			<id>project.local</id>
+			<name>project</name>
+			<url>file:${project.basedir}/libs</url>
+		</repository>
+	</repositories>
+
 	<dependencies>
+		<dependency>
+			<groupId>doug-lea</groupId>
+			<artifactId>jsr166y</artifactId>
+			<version>1.0</version>
+		</dependency>
 		<dependency>
 			<groupId>org.ow2.util</groupId>
 			<artifactId>util-base64</artifactId>

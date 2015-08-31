@@ -135,11 +135,11 @@ public class Updater {
 	private static void installUpdate(Type type, Options options, Socket clientSocket) throws IOException {
 		// Create the input & output streams to the server
 		ObjectOutputStream outToServer = new ObjectOutputStream(clientSocket.getOutputStream());
-		outToServer.writeBoolean(false);
-		outToServer.writeObject(type);
-		outToServer.writeObject(options);
-	}
-
+                outToServer.writeBoolean(false);
+                outToServer.writeObject(type);
+                outToServer.writeObject(options);
+                try { Thread.sleep(1000); } catch (InterruptedException ex) { }
+        }
 	public static interface Observer {
 		public void    startedThread(long threadID);
 
@@ -242,7 +242,7 @@ public class Updater {
 						clientSocket = welcomeSocket.accept();
 						out.println("Updater connected...");
 						ObjectInputStream inFromClient = new ObjectInputStream(clientSocket.getInputStream());
-						ObjectOutputStream outToClient = new ObjectOutputStream(clientSocket.getOutputStream());
+						//ObjectOutputStream outToClient = new ObjectOutputStream(clientSocket.getOutputStream());
 
 						boolean observed = inFromClient.readBoolean();
 						final Type type = (Type) inFromClient.readObject();
@@ -266,9 +266,9 @@ public class Updater {
 
 						try {
 							if (observed) {
-								RubahRemoteObserver observer = new RubahRemoteObserver(outToClient, inFromClient);
+								//RubahRemoteObserver observer = new RubahRemoteObserver(outToClient, inFromClient);
 								// TODO handle observer disconnecting
-								RubahRuntime.observeState(options, installer, observer);
+								//RubahRuntime.observeState(options, installer, observer);
 							} else {
 								Rubah.installNewVersion(options, installer);
 							}

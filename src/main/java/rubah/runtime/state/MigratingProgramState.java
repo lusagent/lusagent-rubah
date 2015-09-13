@@ -24,6 +24,7 @@ import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.lang.reflect.Field;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.Collections;
@@ -131,11 +132,13 @@ public class MigratingProgramState extends RubahState {
 
 			// Threads
 			for (StoppedThread stoppedThread : this.state.getStopped()) {
+                                migrateThreadLocals(stoppedThread.rubahThread, stoppedThread.rubahThread);
 				Runnable r = (Runnable)this.strategy.migrate(stoppedThread.rubahThread.getTarget());
 				stoppedThread.rubahThread.setTarget(r);
 			}
 
 			for (Entry<RubahThread, RubahThread> entry : this.redirectedThreads.entrySet()) {
+                                migrateThreadLocals(entry.getValue(), entry.getKey());
 				entry.getKey().setTarget(entry.getValue());
 			}
 		} catch (IllegalArgumentException e) {
@@ -211,4 +214,17 @@ public class MigratingProgramState extends RubahState {
 		this.migrateStaticFields(Arrays.asList(new Class<?>[]{ c }));
 	}
 
+        private void migrateThreadLocals(RubahThread source, RubahThread target) {
+                try {
+                    Field f = Thread.class.getDeclaredField("threadLocals");
+                    f.setAccessible(true);
+                    Object o = f.get(source);  
+                    if (o != null) { // Check if Thread.threadLocals is set
+                        o = this.strategy.migrate(o);
+                        f.set(target, o);
+                    }
+                } catch (Exception ex) {
+                    throw new Error("ThreadLocal migration failed, should not happen...");
+                }
+        }
 }

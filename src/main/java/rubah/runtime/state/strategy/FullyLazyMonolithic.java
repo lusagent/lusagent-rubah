@@ -414,8 +414,17 @@ public class FullyLazyMonolithic implements MigrationStrategy {
 				AtomicReference ref = (AtomicReference) obj;
 
 				ret = new AtomicReference(this.migrate(ref.get()));
-			}
-			else {
+			} else if (obj.getClass().getName().startsWith(ThreadLocal.class.getName())) {
+				// Migrate java.lang.ThreadLocal$ThreadLocalMap$Entry (which is a subclass of WeakReference)
+
+				// ...$Entry is a key-value-tuple that uses a WeakReference to its key.
+				// The key always points to a ThreadLocal which we assume never to be updated itself,
+				// Therefore, we traverse only the "value" field of Entry and do not rebuilt the WeakReference
+				for (long offset : info.fieldOffsets)
+					this.traverse(ret, offset, ret, offset);
+			} else {
+                                // FIXME: The following cannot properly migrate subclassed references
+                            
 				// TODO find a more general way to migrated references
 				// Taking a chance here...
 				// Follow reference here
@@ -541,6 +550,23 @@ public class FullyLazyMonolithic implements MigrationStrategy {
 				ret.migrateAction = MigrateAction.MIGRATE_CLASS;
 				ret.mappingAction = MappingAction.MAP;
 				ret.traverseAction = TraverseAction.MIGRATE;
+			} else if (Reference.class.isAssignableFrom(c) && c.getName().startsWith(ThreadLocal.class.getName())) {
+				// Migrate java.lang.ThreadLocal$ThreadLocalMap$Entry (which is a subclass of WeakReference)
+
+				// Migrate reference as regular
+				ret.migrateAction = MigrateAction.MIGRATE_REFERENCE;
+				ret.traverseAction = TraverseAction.MIGRATE;
+				ret.proxyClass = Class.forName(ProxyGenerator.generateProxyName(c.getName()), false, Rubah.getLoader());
+				ret.forwardFieldOffset = -1;
+				ret.mappingAction = MappingAction.MAP;
+                 
+				// Addidionally collect fieldOffsets to later on migrate the "value" field               
+				LinkedList<Long> offsets = UnsafeUtils.getInstance().getOffsets(c).getOffsets();
+				ret.fieldOffsets = new long[offsets.size()];
+				int i = 0;
+				for (Long offset : offsets) {
+					ret.fieldOffsets[i++] = offset;
+				}
 			} else if (Reference.class.isAssignableFrom(c) || AtomicReference.class.isAssignableFrom(c)) {
 				ret.migrateAction = MigrateAction.MIGRATE_REFERENCE;
 				ret.traverseAction = TraverseAction.MIGRATE;

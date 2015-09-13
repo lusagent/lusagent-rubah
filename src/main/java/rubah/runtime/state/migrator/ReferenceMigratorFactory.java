@@ -36,7 +36,9 @@ public class ReferenceMigratorFactory extends MigratorSubFactory {
 
 	@Override
 	public boolean canMigrate(Class<?> preClass) {
-		return Reference.class.isAssignableFrom(preClass) || AtomicReference.class.isAssignableFrom(preClass);
+		return Reference.class.isAssignableFrom(preClass) 
+                        || AtomicReference.class.isAssignableFrom(preClass)
+                        || (Reference.class.isAssignableFrom(preClass) && preClass.getName().startsWith(ThreadLocal.class.getName()));
 	}
 
 	@Override
@@ -66,11 +68,19 @@ public class ReferenceMigratorFactory extends MigratorSubFactory {
 					AtomicReference ref = (AtomicReference) obj;
 
 					ret = new AtomicReference(strategy.migrate(ref.get()));
-				}
-				else
+				} else if (obj.getClass().getName().startsWith(ThreadLocal.class.getName())) {
+                                        ret = obj;
+                                                                            
+                                        for (long offset : UnsafeUtils.getInstance().getOffsets(ret.getClass()).getOffsets())
+                                                strategy.migrate(ret, offset, ret, offset);
+                                }
+                                else {
+                                        // FIXME: The following cannot properly migrate subclassed references
+                                    
 					// TODO find a more general way to migrated references
 					// Taking a chance here...
 					return ret;
+                                }
 			}
 
 			if (ret == obj) {

@@ -20,6 +20,7 @@
  *******************************************************************************/
 package rubah.bytecode.transformers;
 
+import java.lang.ThreadLocal;
 import java.lang.ref.Reference;
 import java.lang.reflect.Method;
 import java.lang.reflect.Modifier;
@@ -63,7 +64,6 @@ public class AddTraverseMethod extends RubahTransformer {
 		// Throwable's backtrace is something handled by native code, don't touch
 		Throwable.class.getName(),
 		Rubah.class.getPackage().getName() + ".",
-		ThreadLocal.class.getName(),
 		Object.class.getPackage().getName(),
 		"sun.security",
 		"sun.nio.ch.SocketChannelImpl",
@@ -73,11 +73,14 @@ public class AddTraverseMethod extends RubahTransformer {
 
 	public static boolean isAllowed(String fqn) {
 
-		if (fqn.startsWith(Object.class.getName()) || fqn.startsWith(Class.class.getName()) || fqn.startsWith(Reference.class.getPackage().getName()))
+		if (fqn.startsWith(Object.class.getName())
+			|| fqn.startsWith(Class.class.getName())
+			|| fqn.startsWith(Reference.class.getPackage().getName())
+			|| fqn.startsWith(ThreadLocal.class.getName()))
 			return true;
 
-		for (String allowedPak : blackListedPackages) {
-			if (fqn.startsWith(allowedPak)) {
+		for (String disallowedPak : blackListedPackages) {
+			if (fqn.startsWith(disallowedPak)) {
 				return false;
 			}
 		}

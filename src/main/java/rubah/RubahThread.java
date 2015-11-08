@@ -40,7 +40,11 @@ public class RubahThread extends Thread {
 		super(r);
 		this.target = r;
 	}
-
+        
+	public RubahThread(ThreadGroup group, Runnable r, String name) {
+		super(group, r, name);
+		this.target = r;
+	}
 
 	@Override
 	public synchronized void start() {

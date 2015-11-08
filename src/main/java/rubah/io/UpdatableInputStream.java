@@ -30,6 +30,7 @@ import java.nio.channels.SocketChannel;
 import rubah.Rubah;
 
 public class UpdatableInputStream extends InputStream {
+	private boolean reachedEof = false;
 	private static final int DEFAULT_BUFFER_SIZE = 16 * 1024;
 	private ByteBuffer buf;
 	private SocketChannel channel;
@@ -70,6 +71,7 @@ public class UpdatableInputStream extends InputStream {
 					continue; // Interrupt, carry on reading
 				}
 				if (ret == -1) {
+					reachedEof = true;
 					System.out.println("Thread "+Thread.currentThread()+" attempted to read from closed stream...");
 					return -1; // End of stream occurred
 				}
@@ -94,6 +96,7 @@ public class UpdatableInputStream extends InputStream {
 					continue; // Interrupt, carry on reading
 				}
 				if (ret == -1) {
+					reachedEof = true;
 					return -1; // End of stream occurred
 				}
 				else {
@@ -118,6 +121,7 @@ public class UpdatableInputStream extends InputStream {
 			while (true) {
 				Integer ret	= this.blockingRead();
 				if (ret == -1) {
+					reachedEof = true;
 					return -1; // End of stream occurred
 				}
 				else {
@@ -129,5 +133,10 @@ public class UpdatableInputStream extends InputStream {
 		int ret = this.buf.get() & 0xFF;
 		this.buf.reset();
 		return ret;
+	}
+
+	@Override
+	public int available() throws IOException {
+		return reachedEof ? 0 : 1;
 	}
 }
